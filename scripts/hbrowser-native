@@ -1,6 +1,0 @@
-#!/bin/sh
-set -eu
-HB_PROJECT_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-HB_NODE="$HB_PROJECT_ROOT/.tools/node-v24.21.0-linux-x64/bin/node"
-if [ ! -x "$HB_NODE" ]; then HB_NODE=node; fi
-exec "$HB_NODE" "$HB_PROJECT_ROOT/dist/src/browser/cli.js" "$@"
