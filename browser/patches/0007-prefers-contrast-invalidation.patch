@@ -1,0 +1,25 @@
+diff --git a/patches/prefers-contrast-invalidation.patch b/patches/prefers-contrast-invalidation.patch
+new file mode 100644
+index 0000000..ff4c1e5
+--- /dev/null
++++ b/patches/prefers-contrast-invalidation.patch
+@@ -0,0 +1,19 @@
++diff --git a/docshell/base/BrowsingContext.cpp b/docshell/base/BrowsingContext.cpp
++index 6cf5868..85c0e2f 100644
++--- a/docshell/base/BrowsingContext.cpp
+++++ b/docshell/base/BrowsingContext.cpp
++@@ -3613,7 +3613,13 @@ void BrowsingContext::DidSet(FieldIndex<IDX_PrefersContrastOverride>,
++   if (PrefersContrastOverride() == aOldValue) {
++     return;
++   }
++-  PresContextAffectingFieldChanged();
+++  WalkPresContexts([&](nsPresContext* aPc) {
+++    aPc->MediaFeatureValuesChanged(
+++        {MediaFeatureChangeReason::PreferenceChange},
+++        // We're already iterating through sub documents, so we don't need to
+++        // propagate the change again.
+++        MediaFeatureChangePropagation::JustThisDocument);
+++  });
++ }
++ 
++ void BrowsingContext::DidSet(FieldIndex<IDX_MediumOverride>,

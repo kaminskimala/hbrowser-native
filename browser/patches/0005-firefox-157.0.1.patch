@@ -1,0 +1,8 @@
+diff --git a/upstream.sh b/upstream.sh
+index 919672a..e03c493 100644
+--- a/upstream.sh
++++ b/upstream.sh
+@@ -1,2 +1,2 @@
+-version=156.0.1
++version=157.0.1
+ release=beta.32

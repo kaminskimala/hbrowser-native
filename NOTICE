@@ -1,0 +1,31 @@
+HBrowser source notices
+-----------------------
+
+Except where an existing file notice specifies otherwise, HBrowser source,
+build scripts, tests and documentation in this repository are provided under
+the Mozilla Public License, version 2.0. A copy is included in LICENSE.
+
+HBrowser derives from Camoufox and Mozilla Firefox. Existing copyright and
+license notices in those projects and in patch context remain applicable.
+
+Camoufox: https://github.com/daijro/camoufox
+Pinned revision: e6a398849b28721beff7423e8a47e41c6a3b2312
+License: MPL-2.0, with separately licensed third-party components.
+
+Mozilla Firefox: https://www.mozilla.org/firefox/
+Source version: 157.0.1; archives and checksums: browser/engine.lock.json
+Licensing: https://www.mozilla.org/MPL/ and notices in the upstream source.
+
+The build fetches these sources separately and retains their notices.
+Camoufox's bundled json.hpp retains Niels Lohmann's MIT notice. Its Cursory
+component retains its own LICENSE and NOTICE, copied by the packaging tool.
+Playwright and other npm dependencies retain the licenses distributed with
+their packages; dependency versions are recorded in package-lock.json.
+
+The native additions in browser/native and changes to MPL-covered files are
+MPL-2.0. When distributing binaries, make their corresponding covered source
+available and retain the applicable notices. The pinned upstream source,
+HBrowser patches and native additions identify the source used by this build.
+
+Names and logos remain subject to their owners' rights. This project is not
+an official Camoufox or Mozilla release.

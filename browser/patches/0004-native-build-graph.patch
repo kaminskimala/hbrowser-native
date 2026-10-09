@@ -1,0 +1,18 @@
+diff --git a/patches/hbrowser-native-startup.patch b/patches/hbrowser-native-startup.patch
+new file mode 100644
+index 0000000..e49182b
+--- /dev/null
++++ b/patches/hbrowser-native-startup.patch
+@@ -0,0 +1,12 @@
++diff --git a/toolkit/toolkit.mozbuild b/toolkit/toolkit.mozbuild
++index 70bf139..8453d81 100644
++--- a/toolkit/toolkit.mozbuild
+++++ b/toolkit/toolkit.mozbuild
++@@ -21,6 +21,7 @@ DIRS += [
++ 
++ if CONFIG["COMPILE_ENVIRONMENT"]:
++     DIRS += [
+++        "/camoucfg",
++         "/config/external",
++         "/security",
++     ]

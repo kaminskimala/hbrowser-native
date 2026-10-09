@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+HB_PROJECT_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+cd "$HB_PROJECT_ROOT"
+if [ -x "$HB_PROJECT_ROOT/.tools/node-v24.21.0-linux-x64/bin/node" ]; then
+  PATH="$HB_PROJECT_ROOT/.tools/node-v24.21.0-linux-x64/bin:$PATH"
+  export PATH
+fi
+exec npm "$@"

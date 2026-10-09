@@ -1,0 +1,80 @@
+diff --git a/additions/browser/branding/camoufox/configure.sh b/additions/browser/branding/camoufox/configure.sh
+index 98eb6e1..622c0a2 100644
+--- a/additions/browser/branding/camoufox/configure.sh
++++ b/additions/browser/branding/camoufox/configure.sh
+@@ -7,5 +7,5 @@
+ 
+ MOZ_APP_NAME=camoufox
+ MOZ_APP_BASENAME=Camoufox
+-MOZ_APP_DISPLAYNAME=Camoufox
++MOZ_APP_DISPLAYNAME=HBrowser
+ MOZ_APP_REMOTINGNAME=camoufox
+diff --git a/additions/browser/branding/camoufox/locales/en-US/brand.dtd b/additions/browser/branding/camoufox/locales/en-US/brand.dtd
+index aab13ba..55a14c6 100644
+--- a/additions/browser/branding/camoufox/locales/en-US/brand.dtd
++++ b/additions/browser/branding/camoufox/locales/en-US/brand.dtd
+@@ -2,12 +2,12 @@
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ 
+-<!ENTITY  brandShorterName      "Camoufox">
+-<!ENTITY  brandShortName        "Camoufox">
+-<!ENTITY  brandFullName         "Camoufox">
++<!ENTITY  brandShorterName      "HBrowser">
++<!ENTITY  brandShortName        "HBrowser">
++<!ENTITY  brandFullName         "HBrowser">
+ <!-- LOCALIZATION NOTE (brandProductName):
+    This brand name can be used in messages where the product name needs to
+    remain unchanged across different versions (Nightly, Beta, etc.). -->
+-<!ENTITY  brandProductName      "Camoufox">
+-<!ENTITY  vendorShortName       "Camoufox">
++<!ENTITY  brandProductName      "HBrowser">
++<!ENTITY  vendorShortName       "HBrowser">
+ <!ENTITY  trademarkInfo.part1   " ">
+diff --git a/additions/browser/branding/camoufox/locales/en-US/brand.ftl b/additions/browser/branding/camoufox/locales/en-US/brand.ftl
+index 8bb66a6..e547a9a 100644
+--- a/additions/browser/branding/camoufox/locales/en-US/brand.ftl
++++ b/additions/browser/branding/camoufox/locales/en-US/brand.ftl
+@@ -12,12 +12,12 @@
+ ##
+ ## Reference: https://www.mozilla.org/styleguide/communications/translation/
+ 
+--brand-shorter-name = Camoufox
+--brand-short-name = Camoufox
+--brand-full-name = Camoufox
+--brand-shortcut-name = Camoufox
++-brand-shorter-name = HBrowser
++-brand-short-name = HBrowser
++-brand-full-name = HBrowser
++-brand-shortcut-name = HBrowser
+ # This brand name can be used in messages where the product name needs to
+ # remain unchanged across different versions (Nightly, Beta, etc.).
+--brand-product-name = Camoufox
+--vendor-short-name = Camoufox
++-brand-product-name = HBrowser
++-vendor-short-name = HBrowser
+ trademarkInfo = { " " }
+diff --git a/additions/browser/branding/camoufox/locales/en-US/brand.properties b/additions/browser/branding/camoufox/locales/en-US/brand.properties
+index ae33fef..b6f1c00 100644
+--- a/additions/browser/branding/camoufox/locales/en-US/brand.properties
++++ b/additions/browser/branding/camoufox/locales/en-US/brand.properties
+@@ -2,13 +2,13 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-brandShorterName=Camoufox
+-brandShortName=Camoufox
+-brandFullName=Camoufox
++brandShorterName=HBrowser
++brandShortName=HBrowser
++brandFullName=HBrowser
+ # LOCALIZATION NOTE(brandProductName):
+ # This brand name can be used in messages where the product name needs to
+ # remain unchanged across different versions (Nightly, Beta, etc.).
+-brandProductName=Camoufox
+-vendorShortName=Camoufox
++brandProductName=HBrowser
++vendorShortName=HBrowser
+ 
+-syncBrandShortName=Camoufox Sync
++syncBrandShortName=HBrowser Sync

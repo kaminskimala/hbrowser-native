@@ -1,0 +1,57 @@
+diff --git a/additions/camoucfg/MaskConfig.hpp b/additions/camoucfg/MaskConfig.hpp
+index efc90f9..16073c9 100644
+--- a/additions/camoucfg/MaskConfig.hpp
++++ b/additions/camoucfg/MaskConfig.hpp
+@@ -5,6 +5,7 @@ Written by daijro.
+ 
+ #pragma once
+ #include "json.hpp"
++#include "HBrowserConfigFile.hpp"
+ #include <memory>
+ #include <string>
+ #include <string_view>
+@@ -52,6 +53,22 @@ inline const nlohmann::json& GetJson() {
+   static nlohmann::json jsonConfig;
+ 
+   std::call_once(initFlag, []() {
++    auto configFile = hbrowser::ReadConfigFile(get_env_utf8("HBROWSER_CONFIG_FILE"));
++    if (configFile.requested) {
++      if (!configFile.error.empty()) {
++        printf_stderr("ERROR: HBROWSER_CONFIG_FILE: %s\n", configFile.error.c_str());
++        std::exit(EXIT_FAILURE);
++      }
++      // Reject malformed JSON and non-object roots without printing private data.
++      auto parsed = nlohmann::json::parse(configFile.contents, nullptr, false);
++      if (!parsed.is_object()) {
++        printf_stderr("ERROR: HBROWSER_CONFIG_FILE must contain a valid JSON object\n");
++        std::exit(EXIT_FAILURE);
++      }
++      jsonConfig = std::move(parsed);
++      return;
++    }
++
+     std::string jsonString;
+     int index = 1;
+ 
+diff --git a/additions/camoucfg/moz.build b/additions/camoucfg/moz.build
+index 69eb513..df5a798 100644
+--- a/additions/camoucfg/moz.build
++++ b/additions/camoucfg/moz.build
+@@ -8,6 +8,7 @@ with Files("**"):
+     BUG_COMPONENT = ("Core", "DOM: UI Events & Focus Handling")
+ 
+ EXPORTS += [
++    "HBrowserConfigFile.hpp",
+     "MaskConfig.hpp",
+ ]
+ 
+@@ -15,4 +16,8 @@ LOCAL_INCLUDES += [
+     "/camoucfg",
+ ]
+ 
++SOURCES += [
++    "HBrowserStartup.cpp",
++]
++
+ FINAL_LIBRARY = "xul"
+\ No newline at end of file

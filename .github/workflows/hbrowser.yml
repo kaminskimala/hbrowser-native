@@ -1,0 +1,72 @@
+name: HBrowser
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      compile_browser:
+        description: Compile on the configured hbrowser-build Linux x64 runner (40 GiB free minimum)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      - name: Fetch the exact source used by native checks
+        run: |
+          REVISION=$(python3 -c 'import json; print(json.load(open("browser/engine.lock.json"))["upstream"]["revision"])')
+          git init browser/vendor/camoufox
+          git -C browser/vendor/camoufox fetch --depth 1 https://github.com/daijro/camoufox.git "$REVISION"
+          git -C browser/vendor/camoufox checkout --detach FETCH_HEAD
+      - run: npm test
+      - run: npm run test:native
+      - name: Check application of all HBrowser patches
+        run: python3 browser/build.py fetch
+
+  native-build:
+    if: github.event_name == 'workflow_dispatch' && inputs.compile_browser
+    needs: checks
+    runs-on: [self-hosted, linux, x64, hbrowser-build]
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+      - run: npm ci --no-audit --no-fund
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      - name: Build and package the native browser
+        run: |
+          python3 browser/build.py --workspace "$RUNNER_TEMP/hbrowser-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" all --jobs 2 --out browser/releases
+      - name: Install and test the compiled product
+        run: |
+          VERSION=$(python3 -c 'import json; print(json.load(open("browser/engine.lock.json"))["version"])')
+          ARCHIVE="browser/releases/hbrowser-$VERSION-linux-x64.tar.xz"
+          HASH=$(cut -d ' ' -f 1 "$ARCHIVE.sha256")
+          PRODUCT="$RUNNER_TEMP/hbrowser-product-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 browser/build.py install "$ARCHIVE" --sha256 "$HASH" --destination "$PRODUCT"
+          HB_PRODUCT_DIR="$PRODUCT" HB_REQUIRE_NATIVE=1 npm run test:product:e2e
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: hbrowser-linux-x64
+          path: browser/releases/
+          if-no-files-found: error

@@ -1,0 +1,52 @@
+{
+  "name": "hbrowser",
+  "version": "0.2.0-dev.2",
+  "private": true,
+  "type": "module",
+  "description": "Native Firefox browser distribution based on Camoufox, with a TypeScript SDK and CLI.",
+  "engines": {
+    "node": ">=24.21.0 <25"
+  },
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit",
+    "start": "node dist/src/browser/cli.js",
+    "browser": "node dist/src/browser/cli.js",
+    "test": "npm run build && node --test dist/tests/*.test.js",
+    "test:native": "python3 -m unittest discover -s browser/tests -p test_*.py -v",
+    "test:product:e2e": "npm run build && node --test --test-concurrency=1 dist/tests/*.e2e.js"
+  },
+  "dependencies": {
+    "playwright": "1.64.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.1",
+    "typescript": "7.0.2"
+  },
+  "main": "./dist/src/browser/index.js",
+  "types": "./dist/src/browser/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/browser/index.d.ts",
+      "import": "./dist/src/browser/index.js"
+    }
+  },
+  "bin": {
+    "hbrowser": "dist/src/browser/cli.js"
+  },
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaminskimala/hbrowser-native.git"
+  },
+  "homepage": "https://github.com/kaminskimala/hbrowser-native#readme",
+  "bugs": {
+    "url": "https://github.com/kaminskimala/hbrowser-native/issues"
+  },
+  "files": [
+    "dist/src/browser/",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ]
+}

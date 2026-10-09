@@ -1,0 +1,22 @@
+diff --git a/scripts/patch.py b/scripts/patch.py
+index 7523e8a..6507eab 100644
+--- a/scripts/patch.py
++++ b/scripts/patch.py
+@@ -129,6 +129,8 @@ class Patcher:
+         for rej in rejects:
+             os.remove(rej)
+ 
++        if result.returncode != 0 and not rejects:
++            rejects.append(f"patch exited with status {result.returncode}")
+         return rejects
+ 
+     def _update_mozconfig(self):
+@@ -226,7 +228,7 @@ if __name__ == "__main__":
+ 
+     TARGET, ARCH = extract_build_target()
+     MOZ_TARGET = get_moz_target(TARGET, ARCH)
+-    _update_rustup(TARGET)
++    # HBrowser bootstraps only the selected native target through mach.
+ 
+     # Check if the folder exists
+     if not os.path.exists(f'camoufox-{VERSION}-{RELEASE}/configure.py'):
